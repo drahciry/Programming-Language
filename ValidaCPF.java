@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
  * Validar o formato do CPF, validar se os digitos verifadores sao validos, retornar o CPF
  * como um valor numerico (sem caracteres especiais) e formatacao de CPF usando mascara.
  */
-public class ValidaCPF {
+public final class ValidaCPF {
     /*************************************************************
      *                        ATRIBUTOS                          *
     *************************************************************/
