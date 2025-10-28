@@ -45,18 +45,7 @@ public class ValidaCPF {
      * @return boolean: Retorna um valor booleano de acordo com a validacao realizada.
      */
     private static boolean validaFormato(String cpf) {
-        // Primeira verificacao: tamanho da entrada.
-        // Se a entrada tiver tamanho 11, pode ser uma entrada valida, onde os 11 digitos sao numeros.
-        // Exemplo: 12345678910.
-        // Se a entrada tiver tamanho 12, pode ser uma entrada valida, com 11 digitos e 1 "-" ou 1 "/".
-        // Exemplo: 123456789-10 ou 123456789/10.
-        // Se a entrada tiver tamanho 14, pode ser uma entrada valida, com 11 digitos e a separacao com ".".
-        // Exemplo: 123.456.789-10 ou 123.456.789/10.
-        // Observacao: a validacao do tamanho nao valida se o CPF inserido possui um formato valido, apenas o projeta.
-        // Retorna falso caso o tamanho nao seja valido.
-        if ((cpf.length() != 11) && (cpf.length() != 12) && (cpf.length() != 14)) return false;
-
-        // Segunda verificacao: digitos repetidos.
+        // Primeira verificacao: digitos repetidos.
         // Para facilitar a verificacao de digitos repetidos, uma instancia
         // auxiliar eh criada, sem a presenca de ".", "-" ou "/".
         String cpfAuxiliar = cpfSanitizado(cpf);
@@ -66,10 +55,11 @@ public class ValidaCPF {
         // Retorna falso caso o CPF numerico de match com o regex.
         if (REGEX_DIGITO_REPETIDO.matcher(cpfAuxiliar).matches()) return false;
 
-        // Terceira verificacao: formato do CPF.
+        // Segunda verificacao: formato do CPF e tamanho da entrada.
         // Se o formato do CPF nao estiver nos seguintes casos:
         // DDDDDDDDDDD | DDD.DDD.DDD-DD | DDD.DDD.DDD/DD | DDDDDDDDD-DD | DDDDDDDDD/DD
         // para X pertencente ao intervalo inteiro [0, 9], o formato do CPF esta invalido.
+        // Perceba que em todos os casos, o tamanho está correto.
         // Retorna verdadeiro caso o CPF esteja no padrao dos formatos validos. Caso contrario, retorna falso.
         if (REGEX_CPF.matcher(cpf).matches()) return true;
         return false;
