@@ -23,6 +23,17 @@ public class ValidaCPF {
     private static final Pattern REGEX_CPF = Pattern.compile("(^\\d{11}$)|(^\\d{9}[-/]\\d{2}$)|(^\\d{3}\\.\\d{3}\\.\\d{3}[-/]\\d{2}$)");
 
     /*************************************************************
+     *                        CONSTRUTOR                         *
+    *************************************************************/
+
+    /**
+     * Construtor PRIVADO. Nao pode ser instanciado com new.
+     */
+    private ValidaCPF() {
+        // Apenas para que nao seja possivel instanciar um objeto de uma classe de ajuda.
+    }
+
+    /*************************************************************
      *                          METODOS                          *
     *************************************************************/
 

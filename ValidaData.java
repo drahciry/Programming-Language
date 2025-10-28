@@ -6,7 +6,18 @@ import java.time.LocalDate;
  * Validar dia inteiro ou string, validar mes inteiro ou string, validar ano inteiro ou string,
  * validar uma data inteira (dia, mes e ano) com entradas inteiras ou strings.
  */
-public class ValidaData {
+public final class ValidaData {
+    /*************************************************************
+     *                        CONSTRUTOR                         *
+    *************************************************************/
+
+    /**
+     * Construtor PRIVADO. Nao pode ser instanciado com new.
+     */
+    private ValidaData() {
+        // Apenas para que nao seja possivel instanciar um objeto de uma classe de ajuda.
+    }
+
     /*************************************************************
      *                          METODOS                          *
     *************************************************************/
