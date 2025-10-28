@@ -18,11 +18,57 @@ public class ValidaData {
      * @param mes (String): Mes escrito por extenso.
      * 
      * @return int: Retorna o valor inteiro correspondente ao mes.
+     * 
+     * @exception InvalidMonthException Caso o mes por extenso inserido
+     * nao seja um mes valido, o metodo lancara uma excecao.
      */
-    private static int converteMes(String mes) {
-        String mesAuxiliar = mes.toLowerCase();
-        Mes mesEnum = Mes.valueOf(mesAuxiliar);
-        return 1;
+    private static int converteMes(String mes) throws InvalidMonthException {
+        // Normaliza a string do mes para que tente associar a instancia correta do enum.
+        String mesNormalizado = mes.trim().toUpperCase();
+        Mes mesEnum;
+        try {
+            // Tentativa de instanciar o enum com o mes por extenso passado.
+            mesEnum = Mes.valueOf(mesNormalizado);
+        } catch (IllegalArgumentException e) {
+            // Caso nao seja possivel, uma RuntimException sera lancada pelo metodo. 
+            throw new InvalidMonthException("Mes inserido nao eh valido/nao existe.");
+        }
+        // Retorna o valor inteiro associado ao mes dentro do enum.
+        return mesEnum.getMesInteiro();
+    }
+
+    /**
+     * Metodo estatico que recebe um ano como e verifica se eh ano bissexto.
+     * 
+     * @param ano (int): Ano que sera verificado se eh bissexto.
+     * 
+     * @return boolean: Retorna um valor booleano dizendo se eh ou nao bissexto.
+     */
+    private static boolean isBissexto(int ano) {
+        // Primeiro verifica se eh um ano valido. Se nao for, retorna falso.
+        if (!isAno(ano)) return false;
+        // Aqui ocorre a verificacao de ano bissexto. Se for divisivel por 4,
+        // eh bissexto. Mas se for divisivel por 100, nao eh bissexto, a menos
+        // que o ano seja divisivel por 400, sendo, desta forma, bissexto.
+        return (ano % 4 == 0 && ano % 100 != 0) || (ano % 400 == 0);
+    }
+
+    /**
+     * Metodo estatico que recebe um ano como e verifica se eh ano bissexto.
+     * 
+     * @param ano (String): Ano que sera verificado se eh bissexto.
+     * 
+     * @return boolean: Retorna um valor booleano dizendo se eh ou nao bissexto.
+     */
+    private static boolean isBissexto(String ano) {
+        // Primeiro verifica se eh um ano valido. Se nao for, retorna falso.
+        if (!isAno(ano)) return false;
+        // Converte o ano de String para int utilizando parseInt() da classe padrao Integer.
+        int anoInteiro = Integer.parseInt(ano);
+        // Aqui ocorre a verificacao de ano bissexto. Se for divisivel por 4,
+        // eh bissexto. Mas se for divisivel por 100, nao eh bissexto, a menos
+        // que o ano seja divisivel por 400, sendo, desta forma, bissexto.
+        return (anoInteiro % 4 == 0 && anoInteiro % 100 != 0) || (anoInteiro % 400 == 0);
     }
 
     /**
@@ -33,8 +79,9 @@ public class ValidaData {
      * @return boolean: Retorna um valor booleano para o dia validado.
      */
     public static boolean isDia(int dia) {
-        if (dia < 1 || dia > 31) return false;
-        return true;
+        // Nao ha como haver dias nao positivos e 
+        // o maximo de dias que ha em um unico mes eh igual a 31.
+        return (dia >= 1 && dia <= 31);
     }
 
     /**
@@ -45,8 +92,8 @@ public class ValidaData {
      * @return boolean: Retorna um valor booleano para o mes validado.
      */
     public static boolean isMes(int mes) {
-        if (mes < 1 || mes > 12) return false;
-        return true;
+        // Nao ha como haver mes como inteiro nao positivo ou maior que 12.
+        return (mes >= 1 && mes <= 12);
     }
 
     /**
@@ -57,9 +104,11 @@ public class ValidaData {
      * @return boolean: Retorna um valor booleano para o ano validado.
      */
     public static boolean isAno(int ano) {
+        // Utilizacao da classe LocalDate para obter o tempo atual e nao gerar obsolencia.
         LocalDate now = LocalDate.now();
-        if (ano < (now.getYear() - 120) || ano > now.getYear()) return false;
-        return true;
+        // Os anos somente serao validos se estiver em um intervalo de:
+        // [ano atual - 120; ano atual].
+        return (ano >= (now.getYear() - 120) && ano <= now.getYear());
     }
 
     /**
@@ -70,15 +119,20 @@ public class ValidaData {
      * @return boolean: Retorna um valor booleano para o dia validado.
      */
     public static boolean isDia(String dia) {
+        // Se a entrada como string for maior que 2, nao ha como ser um dia valido, nem mesmo no formato.
         if (dia.length() > 2) return false;
         int diaInteiro;
+        // Bloco de try-catch para verificar se a entrada eh um inteiro.
         try {
+            // Sendo inteiro, armazena valor utilizando parseInt().
             diaInteiro = Integer.parseInt(dia);
         } catch (NumberFormatException e) {
+            // Sendo uma entrada invalida, retorna falso (pois nao eh um dia valido).
             return false;
         }
-        if (diaInteiro < 1 || diaInteiro > 31) return false;
-        return true;
+        // Nao ha como haver dias nao positivos e 
+        // o maximo de dias que ha em um unico mes eh igual a 31.
+        return (diaInteiro >= 1 && diaInteiro <= 31);
     }
 
     /**
@@ -91,13 +145,22 @@ public class ValidaData {
      */
     public static boolean isMes(String mes) {
         int mesInteiro;
+        // Bloco de try-catch para verificar se a entrada eh um inteiro.
         try {
+            // Sendo inteiro, armazena valor utilizando parseInt().
             mesInteiro = Integer.parseInt(mes);
         } catch (NumberFormatException e) {
-            mesInteiro = converteMes(mes);
+            // Caso nao seja uma entrada inteira, tenta converter entrada,
+            // pois entrada pode ser o mes escrito por extenso (ex: "janeiro").
+            try {
+                mesInteiro = converteMes(mes);
+            } catch (InvalidMonthException re) {
+                // Caso a conversao de errado, a entrada era invalida, entao retorna falso.
+                return false;
+            }
         }
-        if (mesInteiro < 1 || mesInteiro > 12) return false;
-        return true;
+        // Nao ha como haver mes como inteiro nao positivo ou maior que 12.
+        return (mesInteiro >= 1 && mesInteiro <= 12);
     }
 
     /**
@@ -108,15 +171,78 @@ public class ValidaData {
      * @return boolean: Retorna um valor booleano para o ano validado.
      */
     public static boolean isAno(String ano) {
+        // Se a entrada como string tiver tamanho diferente de tamanho 4, nao eh um ano valido.
+        // Todos os anos validos terao tamanho 4. Se nao tiver, retorna falso.
         if (ano.length() != 4) return false;
         int anoInteiro;
+        // Bloco de try-catch para verificar se a entrada eh um inteiro.
         try {
+            // Sendo inteiro, armazena valor utilizando parseInt().
             anoInteiro = Integer.parseInt(ano);
         } catch (NumberFormatException e) {
+            // Sendo uma entrada invalida, retorna falso (pois nao eh um ano valido).
             return false;
         }
+        // Utilizacao da classe LocalDate para obter o tempo atual e nao gerar obsolencia.
         LocalDate now = LocalDate.now();
-        if (anoInteiro < (now.getYear() - 120) || anoInteiro > now.getYear()) return false;
-        return true;
+        // Os anos somente serao validos se estiver em um intervalo de:
+        // [ano atual - 120; ano atual].
+        return (anoInteiro >= (now.getYear() - 120) && anoInteiro <= now.getYear());
+    }
+
+    /**
+     * Metodo estatico que recebe uma data completa (dia, mes e ano)
+     * e verifica se eh uma data valida.
+     * 
+     * @param dia (int): Dia da data.
+     * @param mes (int): Mes da data.
+     * @param ano (int): Ano da data.
+     * 
+     * @return boolean: Retorna um valor booleano para a data validada.
+     */
+    public static boolean isData(int dia, int mes, int ano) {
+        if (!isDia(dia)) return false;
+        if (!isMes(mes)) return false;
+        if (!isAno(ano)) return false;
+        boolean anoBissexto = isBissexto(ano);
+        int[] diasNoMes = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+        if (anoBissexto) diasNoMes[2] = 29;
+        return (dia <= diasNoMes[mes]);
+    }
+
+    /**
+     * Metodo estatico que recebe uma data completa (dia, mes e ano)
+     * e verifica se eh uma data valida.
+     * 
+     * @param dia (String): Dia da data.
+     * @param mes (String): Mes da data.
+     * @param ano (String): Ano da data.
+     * 
+     * @return boolean: Retorna um valor booleano para a data validada.
+     */
+    public static boolean isData(String dia, String mes, String ano) {
+        // O ponto de partida eh a validacao de dia, mes e ano separadamente
+        // para que a verificacao nao ocorra de forma duplicada,
+        // ja que existem metodos para realizar esta validacao.
+        if (!isDia(dia)) return false;
+        if (!isMes(mes)) return false;
+        if (!isAno(ano)) return false;
+        // Converte as strings de dia e mes para inteiro.
+        int diaInteiro = Integer.parseInt(dia);
+        int mesInteiro;
+        try {
+            mesInteiro = Integer.parseInt(mes);
+        } catch (NumberFormatException e) {
+            mesInteiro = converteMes(mes);
+        }
+        // Verifica se o ano eh bissexto.
+        boolean anoBissexto = isBissexto(ano);
+        // Armazena o dia limite de cada mes.
+        int[] diasNoMes = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+        // Se o ano for bissexto, troca de 28 para 29.
+        if (anoBissexto) diasNoMes[2] = 29;
+        // Retorna um valor booleano verificando se a data corresponde
+        // ao limite do mes informado, de acordo com os valores do array.
+        return (diaInteiro <= diasNoMes[mesInteiro]);
     }
 }

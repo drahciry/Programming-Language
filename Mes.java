@@ -1,27 +1,60 @@
+/**
+ * Enumerate para mes. Cada mes possui um valor inteiro associado,
+ * que vai de 1 a 12, na mesma ordem em que os meses decorrem.
+ */
 public enum Mes {
+    /*************************************************************
+     *                     INSTANCIAS DO ENUM                    *
+    *************************************************************/
 
-    JANEIRO("janeiro"),
-    FEVEREIRO("fevereiro"),
-    MARCO("marco"),
-    ABRIL("abril"),
-    MAIO("maio"),
-    JUNHO("junho"),
-    JULHO("julho"),
-    AGOSTO("agosto"),
-    SETEMBRO("setembro"),
-    OUTUBRO("outubro"),
-    NOVEMBRO("novembro"),
-    DEZEMBRO("dezembro");
+    JANEIRO(1),
+    FEVEREIRO(2),
+    MARCO(3),
+    ABRIL(4),
+    MAIO(5),
+    JUNHO(6),
+    JULHO(7),
+    AGOSTO(8),
+    SETEMBRO(9),
+    OUTUBRO(10),
+    NOVEMBRO(11),
+    DEZEMBRO(12);
 
-    private final String mesPorExtenso;
+    /*************************************************************
+     *                         ATRIBUTOS                         *
+    *************************************************************/
 
-    Mes (String mes) {
-        if (mes == null || mes.trim().isEmpty())
+    /**
+     * Constante que armazenara o valor inteiro relativo ao mes apos ser instanciado.
+     * Armazena os valores de 1 a 12.
+     */
+    private final int mesInteiro;
+
+    /*************************************************************
+     *                        CONSTRUTOR                         *
+    *************************************************************/
+
+    /**
+     * Construtor PRIVADO. Nao pode ser instanciado com new.
+     * 
+     * @param mes (int): Valor inteiro do mes informado. 
+     */
+    Mes (int mes) {
+        // Se o mes nao estiver entre 1 e 12, sera lancada uma RuntimeException customizada.
+        if (mes < 1 || mes > 12)
             throw new InvalidMonthException("O nome por extenso do mês não pode ser nulo ou vazio.");
-        this.mesPorExtenso = mes;
+        this.mesInteiro = mes;
     }
 
-    public String getMesPorExtenso() {
-        return mesPorExtenso;
+    /*************************************************************
+     *                          METODOS                          *
+    *************************************************************/
+    /**
+     * Metodo getter para obter qual o valor inteiro relativo ao mes.
+     * 
+     * @return int: Retorna um valor inteiro no intervalo de 1 a 12, relativo ao mes.
+     */
+    public int getMesInteiro() {
+        return mesInteiro;
     }
 }
