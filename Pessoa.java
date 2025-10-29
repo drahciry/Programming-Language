@@ -82,7 +82,7 @@ public class Pessoa {
      * @param altura ({@code float}): Altura da {@code Pessoa}.
      */
     public Pessoa(String nome, String sobreNome, int diaNasc, int mesNasc, int anoNasc, long numCPF, float peso, float altura) {
-        this(sobreNome, sobreNome, diaNasc, mesNasc, anoNasc);
+        this(nome, sobreNome, diaNasc, mesNasc, anoNasc);
         setNumCPF(numCPF);
         setPeso(peso);
         setAltura(altura);
@@ -101,7 +101,7 @@ public class Pessoa {
      * @param altura ({@code float}): Altura da {@code Pessoa}.
      */
     public Pessoa(String nome, String sobreNome, String diaNasc, String mesNasc, String anoNasc, long numCPF, float peso, float altura) {
-        this(sobreNome, sobreNome, diaNasc, mesNasc, anoNasc);
+        this(nome, sobreNome, diaNasc, mesNasc, anoNasc);
         setNumCPF(numCPF);
         setPeso(peso);
         setAltura(altura);
@@ -120,8 +120,8 @@ public class Pessoa {
      * uma Runtime Exception sera lancada.
      */
     public void setNome(String nome) throws InvalidNameException {
-        // Verifica se o nome informado nao eh uma string vazia ou se nao bate com regex.
-        if (nome.trim().isEmpty() || !NOME_VALIDO.matcher(nome).matches())
+        // Verifica se o nome informado nao eh uma string nula, vazia ou se nao bate com regex.
+        if (nome == null || nome.trim().isEmpty() || !NOME_VALIDO.matcher(nome).matches())
             // Lanca excecao de nome invalido.
             throw new InvalidNameException(
                 "O nome \"" + nome + "\" nao pode ser utilizado (deve conter apenas letras e espaco)."
@@ -148,8 +148,8 @@ public class Pessoa {
      * uma Runtime Exception sera lancada.
      */
     public void setSobreNome(String sobreNome) throws InvalidSurnameException {
-        // Verifica se o sobrenome informado nao eh uma string vazia ou se nao bate com regex.
-        if (nome.trim().isEmpty() || !NOME_VALIDO.matcher(sobreNome).matches())
+        // Verifica se o sobrenome informado nao eh uma string nula, vazia ou se nao bate com regex.
+        if (sobreNome == null || sobreNome.trim().isEmpty() || !NOME_VALIDO.matcher(sobreNome).matches())
             // Lanca excecao de nome invalido.
             throw new InvalidSurnameException(
                 "O sobrenome \"" + sobreNome + "\" nao pode ser utilizado (deve conter apenas letras e espacos)."
@@ -298,12 +298,12 @@ public class Pessoa {
      * 
      * @param altura ({@code float}): Altura da pessoa.
      * 
-     * @throws InvalidHeightException Caso a altura seja menor que 0.40cm,
+     * @throws InvalidHeightException Caso a altura seja menor que 0.40m,
      * sera lancada uma Runtime Exception. Essa escolha foi arbitraria e pode ser alterada.
      */
     public void setAltura(float altura) throws InvalidHeightException {
         if (altura < 0.40)
-            throw new InvalidHeightException(altura + " nao eh valida. Altura deve ser um valor acima de 0.40cm.");
+            throw new InvalidHeightException(altura + " nao eh valida. Altura deve ser um valor acima de 0.40m.");
         this.altura = altura;
     }
 
@@ -331,7 +331,7 @@ public class Pessoa {
      * 
      * @return {@code int}: Retorna um int com o numero de pessoas instanciadas.
      */
-    public int getNumPessoas() {
+    public static int getNumPessoas() {
         return numPessoas;
     }
 
@@ -340,13 +340,13 @@ public class Pessoa {
         // Se o CPF for 0, o construtor especializado nao foi utilizado.
         if (numCPF == 0)
             return (
-                "Nome: " + nome + sobreNome +
+                "Nome: " + nome + " " + sobreNome +
                 "\nIdade: " + getIdade() +
                 "\nData de Nascimento: " + dataNasc.toString()
             );
         // O construtor especializado foi utilizado.
         return (
-            "Nome: " + nome + sobreNome +
+            "Nome: " + nome + " " + sobreNome +
             "\nIdade: " + getIdade() +
             "\nData de Nascimento: " + dataNasc.toString() +
             // Utiliza o metodo estatico format() da classe String para que o CPF tenha sempre 11 digitos.

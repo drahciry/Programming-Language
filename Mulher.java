@@ -30,9 +30,9 @@ public class Mulher extends Pessoa {
      * 
      * @param nome ({@code String}): Nome da {@code Mulher}.
      * @param sobreNome ({@code String}): Sobrenome da {@code Mulher}.
-     * @param diaNasc ({@code String}): Dia de nascimento da {@code Mulher}.
-     * @param mesNasc ({@code String}): Mes de nascimento da {@code Mulher}.
-     * @param anoNasc ({@code String}): Ano de nascimento da {@code Mulher}.
+     * @param diaNasc ({@code int}): Dia de nascimento da {@code Mulher}.
+     * @param mesNasc ({@code int}): Mes de nascimento da {@code Mulher}.
+     * @param anoNasc ({@code int}): Ano de nascimento da {@code Mulher}.
      */
     public Mulher(String nome, String sobreNome, int diaNasc, int mesNasc, int anoNasc) {
         super(nome, sobreNome, diaNasc, mesNasc, anoNasc);
@@ -44,9 +44,9 @@ public class Mulher extends Pessoa {
      * 
      * @param nome ({@code String}): Nome da {@code Mulher}.
      * @param sobreNome ({@code String}): Sobrenome da {@code Mulher}.
-     * @param diaNasc ({@code int}): Dia de nascimento da {@code Mulher}.
-     * @param mesNasc ({@code int}): Mes de nascimento da {@code Mulher}.
-     * @param anoNasc ({@code int}): Ano de nascimento da {@code Mulher}.
+     * @param diaNasc ({@code String}): Dia de nascimento da {@code Mulher}.
+     * @param mesNasc ({@code String}): Mes de nascimento da {@code Mulher}.
+     * @param anoNasc ({@code String}): Ano de nascimento da {@code Mulher}.
      */
     public Mulher(String nome, String sobreNome, String diaNasc, String mesNasc, String anoNasc) {
         super(nome, sobreNome, diaNasc, mesNasc, anoNasc);
@@ -76,7 +76,7 @@ public class Mulher extends Pessoa {
      * @param diaNasc ({@code String}): Dia de nascimento da {@code Mulher}.
      * @param mesNasc ({@code String}): Mes de nascimento da {@code Mulher}.
      * @param anoNasc ({@code String}): Ano de nascimento da {@code Mulher}.
-     * @param numCPF ({@code String}): Numero de CPF da {@code Mulher}.
+     * @param numCPF ({@code long}): Numero de CPF da {@code Mulher}.
      * @param peso ({@code float}): Peso da {@code Mulher}.
      * @param altura ({@code float}): Altura da {@code Mulher}.
      */

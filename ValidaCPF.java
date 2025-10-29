@@ -152,7 +152,7 @@ public final class ValidaCPF {
     }
 
     /**
-     * Metodo estatico que recebe um CPF, verifica se eh valido e, se for, retorna o CPF formatado.
+     * Metodo estatico que recebe um CPF e retorna o CPF formatado.
      * O CPF precisa já estar validado.
      * 
      * @param cpf (String): String carregada com o CPF, que sera validade e formatado.
