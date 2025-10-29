@@ -42,7 +42,7 @@ public final class ValidaData {
             mesEnum = Mes.valueOf(mesNormalizado);
         } catch (IllegalArgumentException e) {
             // Caso nao seja possivel, uma RuntimException sera lancada pelo metodo. 
-            throw new InvalidMonthException("Mes inserido nao eh valido/nao existe.");
+            throw new InvalidMonthException(mes + " nao eh valido/nao existe.");
         }
         // Retorna o valor inteiro associado ao mes dentro do enum.
         return mesEnum.getMesInteiro();
@@ -128,8 +128,11 @@ public final class ValidaData {
      * @param dia (String): Dia que sera validado.
      * 
      * @return boolean: Retorna um valor booleano para o dia validado.
+     * 
+     * @exception InvalidDayException Quando a entrada nao for um dia valido,
+     * ou seja, nao for um valor inteiro entre 1 e 31, sera lancada uma Runtime Exception.
      */
-    public static boolean isDia(String dia) {
+    public static boolean isDia(String dia) throws InvalidDayException {
         // Se a entrada como string for maior que 2, nao ha como ser um dia valido, nem mesmo no formato.
         if (dia.length() > 2) return false;
         int diaInteiro;
@@ -138,8 +141,10 @@ public final class ValidaData {
             // Sendo inteiro, armazena valor utilizando parseInt().
             diaInteiro = Integer.parseInt(dia);
         } catch (NumberFormatException e) {
-            // Sendo uma entrada invalida, retorna falso (pois nao eh um dia valido).
-            return false;
+            // Caso a conversao de errado, a entrada era invalida, entao lanca uma excecao.
+            throw new InvalidDayException(
+                dia + " nao eh um dia. A entrada dever um inteiro no formato DD."
+            );
         }
         // Nao ha como haver dias nao positivos e 
         // o maximo de dias que ha em um unico mes eh igual a 31.
@@ -153,21 +158,27 @@ public final class ValidaData {
      * @param mes (String): Mes que sera validado.
      * 
      * @return boolean: Retorna um valor booleano para o mes validado.
+     * 
+     * @exception InvalidMonthException Quando a entrada nao for um mes valido,
+     * ou seja, nao for um valor inteiro entre 1 e 12 ou um mes por extenso escrito
+     * corretamente, sera lancada uma Runtime Exception.
      */
-    public static boolean isMes(String mes) {
+    public static boolean isMes(String mes) throws InvalidMonthException {
         int mesInteiro;
         // Bloco de try-catch para verificar se a entrada eh um inteiro.
         try {
             // Sendo inteiro, armazena valor utilizando parseInt().
             mesInteiro = Integer.parseInt(mes);
-        } catch (NumberFormatException e) {
+        } catch (NumberFormatException e1) {
             // Caso nao seja uma entrada inteira, tenta converter entrada,
             // pois entrada pode ser o mes escrito por extenso (ex: "janeiro").
             try {
                 mesInteiro = converteMes(mes);
-            } catch (InvalidMonthException re) {
-                // Caso a conversao de errado, a entrada era invalida, entao retorna falso.
-                return false;
+            } catch (InvalidMonthException e2) {
+                // Caso a conversao de errado, a entrada era invalida, entao lanca uma excecao.
+                throw new InvalidMonthException(
+                    mes + " nao eh um mes valido. A entrada dever um inteiro no formato MM ou um mes por extenso."
+                );
             }
         }
         // Nao ha como haver mes como inteiro nao positivo ou maior que 12.
@@ -180,8 +191,11 @@ public final class ValidaData {
      * @param ano (String): Ano que sera validado.
      * 
      * @return boolean: Retorna um valor booleano para o ano validado.
+     * 
+     * @exception InvalidYearException Quando a entrada nao for um ano valido,
+     * ou seja, nao for um valor inteiro de ate 120 atras, sera lancada uma Runtime Exception.
      */
-    public static boolean isAno(String ano) {
+    public static boolean isAno(String ano) throws InvalidYearException {
         // Se a entrada como string tiver tamanho diferente de tamanho 4, nao eh um ano valido.
         // Todos os anos validos terao tamanho 4. Se nao tiver, retorna falso.
         if (ano.length() != 4) return false;
@@ -191,8 +205,10 @@ public final class ValidaData {
             // Sendo inteiro, armazena valor utilizando parseInt().
             anoInteiro = Integer.parseInt(ano);
         } catch (NumberFormatException e) {
-            // Sendo uma entrada invalida, retorna falso (pois nao eh um ano valido).
-            return false;
+            // Caso a conversao de errado, a entrada era invalida, entao lanca uma excecao.
+            throw new InvalidYearException(
+                ano + " nao eh um ano valido. A entrada dever um inteiro no formato AAAA ate 120 anos atras."
+            );
         }
         // Utilizacao da classe LocalDate para obter o tempo atual e nao gerar obsolencia.
         LocalDate now = LocalDate.now();
@@ -212,12 +228,18 @@ public final class ValidaData {
      * @return boolean: Retorna um valor booleano para a data validada.
      */
     public static boolean isData(int dia, int mes, int ano) {
+        // O ponto de partida eh a validacao de dia, mes e ano separadamente
+        // para que a verificacao nao ocorra de forma duplicada,
+        // ja que existem metodos para realizar esta validacao.
         if (!isDia(dia)) return false;
         if (!isMes(mes)) return false;
         if (!isAno(ano)) return false;
-        boolean anoBissexto = isBissexto(ano);
+        // Armazena o dia limite de cada mes.
         int[] diasNoMes = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-        if (anoBissexto) diasNoMes[2] = 29;
+        // Se o ano for bissexto, troca de 28 dias para 29 dias.
+        if (isBissexto(ano)) diasNoMes[2] = 29;
+        // Retorna um valor booleano verificando se a data corresponde
+        // ao limite do mes informado, de acordo com os valores do array.
         return (dia <= diasNoMes[mes]);
     }
 
@@ -231,13 +253,25 @@ public final class ValidaData {
      * 
      * @return boolean: Retorna um valor booleano para a data validada.
      */
-    public static boolean isData(String dia, String mes, String ano) {
+    public static boolean isData(String dia, String mes, String ano)
+    throws InvalidDayException, InvalidMonthException, InvalidYearException {
         // O ponto de partida eh a validacao de dia, mes e ano separadamente
         // para que a verificacao nao ocorra de forma duplicada,
         // ja que existem metodos para realizar esta validacao.
-        if (!isDia(dia)) return false;
-        if (!isMes(mes)) return false;
-        if (!isAno(ano)) return false;
+        try {
+            if (!isDia(dia)) return false;
+            if (!isMes(mes)) return false;
+            if (!isAno(ano)) return false;
+        // Dia invalido.
+        } catch (InvalidDayException e1) {
+            throw new InvalidDayException(e1.getMessage());
+        // Mes invalido.
+        } catch (InvalidMonthException e2) {
+            throw new InvalidMonthException(e2.getMessage());
+        // Ano invalido.
+        } catch (InvalidYearException e3) {
+            throw new InvalidYearException(e3.getMessage());
+        }
         // Converte as strings de dia e mes para inteiro.
         int diaInteiro = Integer.parseInt(dia);
         int mesInteiro;
@@ -246,12 +280,10 @@ public final class ValidaData {
         } catch (NumberFormatException e) {
             mesInteiro = converteMes(mes);
         }
-        // Verifica se o ano eh bissexto.
-        boolean anoBissexto = isBissexto(ano);
         // Armazena o dia limite de cada mes.
         int[] diasNoMes = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-        // Se o ano for bissexto, troca de 28 para 29.
-        if (anoBissexto) diasNoMes[2] = 29;
+        // Se o ano for bissexto, troca de 28 dias para 29 dias.
+        if (isBissexto(ano)) diasNoMes[2] = 29;
         // Retorna um valor booleano verificando se a data corresponde
         // ao limite do mes informado, de acordo com os valores do array.
         return (diaInteiro <= diasNoMes[mesInteiro]);
