@@ -10,4 +10,8 @@ public class InvalidCpfException extends RuntimeException {
     public InvalidCpfException(String message) {
         super(message);
     }
+    // Construtor com anexacao de excecoes
+    public InvalidCpfException(String message, Throwable cause) {
+        super(message, cause);
+    }
 }
