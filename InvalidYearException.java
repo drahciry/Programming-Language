@@ -9,4 +9,8 @@ public class InvalidYearException extends RuntimeException {
     public InvalidYearException(String message) {
         super(message);
     }
+    // Construtor com anexacao de excecoes
+    public InvalidYearException(String message, Throwable cause) {
+        super(message, cause);
+    }
 }

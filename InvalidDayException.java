@@ -8,5 +8,9 @@ public class InvalidDayException extends RuntimeException {
     // Construtor
     public InvalidDayException(String message) {
         super(message);
-    }    
+    }
+    // Construtor com anexacao de excecoes
+    public InvalidDayException(String message, Throwable cause) {
+        super(message, cause);
+    }
 }

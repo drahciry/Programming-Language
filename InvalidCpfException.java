@@ -2,10 +2,10 @@
  * Classe de excecao customizada para CPFs que possuam um formato invalido
  * ou que tenha digitos verificadores incorretos.
  * 
- * Esta classe eh uma "Checked Exception", ou seja, voce deve trata-la ou
- * sua classe nao sera compilada pela JVM.
+ * Esta classe eh uma "Runtime Exception", ou seja, voce deve nao possui a obrigacao de
+ * trata-la, mas a nao verificacao eh por conta em risco.
  */
-public class InvalidCpfException extends Exception {
+public class InvalidCpfException extends RuntimeException {
     // Construtor
     public InvalidCpfException(String message) {
         super(message);

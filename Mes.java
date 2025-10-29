@@ -40,9 +40,6 @@ public enum Mes {
      * @param mes (int): Valor inteiro do mes informado. 
      */
     private Mes (int mes) {
-        // Se o mes nao estiver entre 1 e 12, sera lancada uma RuntimeException customizada.
-        if (mes < 1 || mes > 12)
-            throw new InvalidMonthException("O nome por extenso do mês não pode ser nulo ou vazio.");
         this.mesInteiro = mes;
     }
 

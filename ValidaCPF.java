@@ -1,4 +1,4 @@
-// Importacoes uteis ao programa
+// Importacoes uteis a classe
 import java.util.regex.Pattern;
 
 /**
@@ -72,8 +72,7 @@ public final class ValidaCPF {
         // para X pertencente ao intervalo inteiro [0, 9], o formato do CPF esta invalido.
         // Perceba que em todos os casos, o tamanho está correto.
         // Retorna verdadeiro caso o CPF esteja no padrao dos formatos validos. Caso contrario, retorna falso.
-        if (REGEX_CPF.matcher(cpf).matches()) return true;
-        return false;
+        return REGEX_CPF.matcher(cpf).matches();
     }
 
     /**
@@ -130,10 +129,7 @@ public final class ValidaCPF {
         char dig11 = calcularDigitoVerificador(cpfAuxiliar.substring(0, 10));
         
         // Se os digitos verificadores calculados forem iguais aos digitos verificadores do CPF informado, entao o CPF eh valido.
-        if ((dig10 == cpfAuxiliar.charAt(9)) && (dig11 == cpfAuxiliar.charAt(10)))
-            return true;
-        // Senao, eh invalido.
-        return false;
+        return ((dig10 == cpfAuxiliar.charAt(9)) && (dig11 == cpfAuxiliar.charAt(10)));
     }
 
     /**
@@ -144,7 +140,7 @@ public final class ValidaCPF {
      * @return long: String cpf convertida para long.
      * 
      * @exception InvalidCpfException Caso o cpf (String) nao possua o formato valido,
-     *            sera lancado uma excecao informado que o formato eh invalido.
+     * sera lancado uma excecao informado que o formato eh invalido.
      */
     public static long toLong(String cpf) throws InvalidCpfException {
         // Realiza validacao do CPF. Caso o CPF seja invalido, uma excecao customizada sera lancada.
@@ -157,17 +153,13 @@ public final class ValidaCPF {
 
     /**
      * Metodo estatico que recebe um CPF, verifica se eh valido e, se for, retorna o CPF formatado.
+     * O CPF precisa já estar validado.
      * 
      * @param cpf (String): String carregada com o CPF, que sera validade e formatado.
      * 
      * @return String: String cpf convertida para long.
-     * 
-     * @exception InvalidCpfException Caso o cpf (String) nao possua o formato valido,
-     *            sera lancado uma excecao informado que o formato eh invalido.
      */
-    public static String imprimeCPF(String cpf) throws InvalidCpfException {
-        // Realiza validacao do CPF. Caso o CPF seja invalido, uma excecao customizada sera lancada.
-        if (!isCPF(cpf)) throw new InvalidCpfException("O CPF inserido nao eh valido!");
+    public static String toString(String cpf) {
         // Instancia auxiliar sem a presenca de ".", "-" ou "/" para fatiamento correto e preciso da String do CPF.
         String cpfAuxiliar = cpfSanitizado(cpf);
         return (cpfAuxiliar.substring(0, 3) + "." + 
