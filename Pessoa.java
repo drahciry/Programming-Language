@@ -3,11 +3,25 @@ import java.util.regex.Pattern;
 import java.time.LocalDate;
 import java.time.Period;
 
+/**
+ * Classe que representa uma pessoa.
+ * Possue atributos como:
+ * Nome,
+ * Sobrenome,
+ * Data de Nascimento,
+ * Numero de CPF,
+ * Peso e
+ * Altura.
+ */
 public class Pessoa {
     /*************************************************************
      *                        ATRIBUTOS                          *
     *************************************************************/
     
+    /**
+     * Regex para validar nome e sobrenome.
+     * Atributo privado, estatico e constante, nao podendo ser alterado e nem acessado de fora da classe.
+     */
     private static final Pattern NOME_VALIDO = Pattern.compile("^[\\p{L}\s]+$");
     private static int numPessoas = 0;
     private String nome;
@@ -21,6 +35,16 @@ public class Pessoa {
      *                        CONSTRUTOR                         *
     *************************************************************/
 
+    /**
+     * Construtor básico.
+     * Composto de Nome, Sobrenome e Data de Nascimento.
+     * 
+     * @param nome ({@code String}): Nome da {@code Pessoa}.
+     * @param sobreNome ({@code String}): Sobrenome da {@code Pessoa}.
+     * @param diaNasc ({@code int}): Dia de nascimento da {@code Pessoa}.
+     * @param mesNasc ({@code int}): Mes de nascimento da {@code Pessoa}.
+     * @param anoNasc ({@code int}): Ano de nascimento da {@code Pessoa}.
+     */
     public Pessoa(String nome, String sobreNome, int diaNasc, int mesNasc, int anoNasc) {
         numPessoas++;
         setNome(nome);
@@ -28,6 +52,16 @@ public class Pessoa {
         setDataNasc(diaNasc, mesNasc, anoNasc);
     }
 
+    /**
+     * Construtor básico.
+     * Composto de Nome, Sobrenome e Data de Nascimento.
+     * 
+     * @param nome ({@code String}): Nome da {@code Pessoa}.
+     * @param sobreNome ({@code String}): Sobrenome da {@code Pessoa}.
+     * @param diaNasc ({@code String}): Dia de nascimento da {@code Pessoa}.
+     * @param mesNasc ({@code String}): Mes de nascimento da {@code Pessoa}.
+     * @param anoNasc ({@code String}): Ano de nascimento da {@code Pessoa}.
+     */
     public Pessoa(String nome, String sobreNome, String diaNasc, String mesNasc, String anoNasc) {
         numPessoas++;
         setNome(nome);
@@ -35,6 +69,18 @@ public class Pessoa {
         setDataNasc(diaNasc, mesNasc, anoNasc);
     }
 
+    /**
+     * Construtor especializado.
+     * Composto pelo construtor base + Numero de CPF, Peso e Altura.
+     * @param nome ({@code String}): Nome da {@code Pessoa}.
+     * @param sobreNome ({@code String}): Sobrenome da {@code Pessoa}.
+     * @param diaNasc ({@code int}): Dia de nascimento da {@code Pessoa}.
+     * @param mesNasc ({@code int}): Mes de nascimento da {@code Pessoa}.
+     * @param anoNasc ({@code int}): Ano de nascimento da {@code Pessoa}.
+     * @param numCPF ({@code long}): Numero de CPF da {@code Pessoa}.
+     * @param peso ({@code float}): Peso da {@code Pessoa}.
+     * @param altura ({@code float}): Altura da {@code Pessoa}.
+     */
     public Pessoa(String nome, String sobreNome, int diaNasc, int mesNasc, int anoNasc, long numCPF, float peso, float altura) {
         this(sobreNome, sobreNome, diaNasc, mesNasc, anoNasc);
         setNumCPF(numCPF);
@@ -42,6 +88,18 @@ public class Pessoa {
         setAltura(altura);
     }
 
+    /**
+     * Construtor especializado.
+     * Composto pelo construtor base + Numero de CPF, Peso e Altura.
+     * @param nome ({@code String}): Nome da {@code Pessoa}.
+     * @param sobreNome ({@code String}): Sobrenome da {@code Pessoa}.
+     * @param diaNasc ({@code String}): Dia de nascimento da {@code Pessoa}.
+     * @param mesNasc ({@code String}): Mes de nascimento da {@code Pessoa}.
+     * @param anoNasc ({@code String}): Ano de nascimento da {@code Pessoa}.
+     * @param numCPF ({@code String}): Numero de CPF da {@code Pessoa}.
+     * @param peso ({@code float}): Peso da {@code Pessoa}.
+     * @param altura ({@code float}): Altura da {@code Pessoa}.
+     */
     public Pessoa(String nome, String sobreNome, String diaNasc, String mesNasc, String anoNasc, long numCPF, float peso, float altura) {
         this(sobreNome, sobreNome, diaNasc, mesNasc, anoNasc);
         setNumCPF(numCPF);
@@ -147,6 +205,7 @@ public class Pessoa {
         return numPessoas;
     }
 
+    // Método toString(), padrão para exibição de informação.
     public String toString() {
         if (numCPF == 0)
             return (
@@ -158,7 +217,7 @@ public class Pessoa {
             "Nome: " + nome + sobreNome +
             "\nIdade: " + getIdade() +
             "\nData de Nascimento: " + dataNasc.toString() +
-            "\nCPF: " + ValidaCPF.toString(Long.toString(numCPF)) +
+            "\nCPF: " + ValidaCPF.toString(String.format("%011d", numCPF)) +
             "\nPeso: " + peso +
             "\nAltura: " + altura 
         );
