@@ -16,8 +16,8 @@ public class P1nX {
                 "\nExemplo 4:\njava P1nX homem Richard Albino 4 1 2005 00000000000 95 1.73\n" +
                 "\nPerceba que os argumentos CPF, peso e altura nao sao obrigatorios.\n" +
                 "Para preencher o genero, voce pode usar:\n" +
-                "\nPara homens:\nHomem, Masculino, M" +
-                "\nPara mulheres:\nMulher, Feminino, F\n" +
+                "\nPara homens: Homem, Masculino, M" +
+                "\nPara mulheres: Mulher, Feminino, F\n" +
                 "\nO programa sera encerrado."
             );
     }

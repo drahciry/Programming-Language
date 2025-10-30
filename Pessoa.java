@@ -342,7 +342,10 @@ public class Pessoa {
             return (
                 "Nome: " + nome + " " + sobreNome +
                 "\nIdade: " + getIdade() +
-                "\nData de Nascimento: " + dataNasc.toString()
+                "\nData de Nascimento: " + dataNasc.toString() +
+                "\nCPF: Nao informado" +
+                "\nPeso: Nao informado" +
+                "\nAltura: Nao informado"
             );
         // O construtor especializado foi utilizado.
         return (
