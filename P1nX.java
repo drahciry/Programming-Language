@@ -1,54 +1,191 @@
+import java.util.Scanner;
+
 public class P1nX {
     public static void main(String[] args) {
         if (args.length != 6 && args.length != 9) {
+            System.out.println("Quantidade de argumentos invalida. Veja como iniciar o programa corretamente:\n");
             displayHelp();
             return;
         }
 
-        Pessoa pessoaCriada;
-
-        try {
-            pessoaCriada = createPessoa(args);
-        } catch (InvalidNameException | InvalidSurnameException e1) {
-            System.out.println("Erro de validacao: Nome ou Sobrenome invalido.");
-            System.out.println("Detalhe: " + e1.getMessage());
-            displayHelp();
-        } catch (InvalidDataException e2) {
-            System.out.println("Erro de validacao: Data de Nascimento invalida.");
-            System.out.println("Detalhe: " + e2.getMessage());
-            displayHelp();
-        } catch (InvalidCpfException e3) {
-            System.out.println("Erro de validacao: CPF invalido.");
-            System.out.println("Detalhe: " + e3.getMessage());
-            displayHelp();
-        } catch (InvalidWeightException e4) {
-            System.out.println("Erro de validacao: Peso invalido.");
-            System.out.println("Detalhe: " + e4.getMessage());
-            displayHelp();
-        } catch (InvalidHeightException e5) {
-            System.out.println("Erro de validacao: Altura invalida.");
-            System.out.println("Detalhe: " + e5.getMessage());
-            displayHelp();
-        } catch (NumberFormatException e) {
-            System.out.println("Erro de formato: Peso ou Altura nao sao numeros validos.");
-            System.out.println("Detalhe: \"" + e.getMessage() + "\" nao pode ser convertido.");
-            displayHelp();
-        } catch (IllegalArgumentException e6) {
-            System.out.println("Erro de validacao: Genero invalido.");
-            displayHelpGender(args[0]);
-        } catch (Exception e) {
-            System.out.println("Ocorreu um erro inesperado:");
-            e.printStackTrace();
-            displayHelp();
-        }
+        Pessoa pessoaCriada = trataExcecaoCLI(args);
 
         if (pessoaCriada == null) {
             System.out.println("\nPrograma encerrado devido a erro nos argumentos.");
             return;
         }
 
-        System.out.println("Pessoa cadastrada com sucesso!");
+        System.out.println("Pessoa cadastrada com sucesso!\n");
         System.out.println(pessoaCriada);
+
+        Scanner scanner = new Scanner(System.in);
+        int quantidade = 0;
+
+        while (true) {
+            System.out.print("\nDeseja criar mais quantas pessoas? (Digite 0 para encerrar) R: ");
+            try {
+                String input = scanner.nextLine();
+                quantidade = Integer.parseInt(input);
+
+                if (quantidade < 0)
+                    System.out.println("Erro: numero nao pode ser negativo. Tente novamente");
+                else
+                    break;
+            } catch (NumberFormatException e) {
+                System.out.println("Erro: entrada invalida. Por favor, digite um numero inteiro e positivo.");
+            }
+        }
+
+        if (quantidade == 0)
+            System.out.println("Nenhuma pessoa mais sera criada.");
+
+        Pessoa[] pessoas = new Pessoa[quantidade];
+
+        mainLoop:
+        for (int i = 0; i < quantidade; i++) {
+            System.out.println("\nCadastrando pessoa " + (i + 1) + " de " + quantidade + ".");
+            System.out.println("(Deixe o 'genero' em branco e pressione ENTER para parar)");
+
+            while (true) {
+                String[] parameters;
+
+                System.out.println("\nInsira o genero: ");
+                String genero = scanner.nextLine();
+
+                if (genero.isEmpty()) {
+                    System.out.println("Entrada de dados interrompida pelo usuario.\n");
+                    break mainLoop;
+                }
+
+                System.out.print("Insira o nome: ");
+                String nome = scanner.nextLine();
+                System.out.print("Insira o sobrenome: ");
+                String sobreNome = scanner.nextLine();
+                System.out.print("Insira o dia de nascimento: ");
+                String diaNasc = scanner.nextLine();
+                System.out.print("Insira o mes de nascimento (ex: 5 ou 'Maio'): ");
+                String mesNasc = scanner.nextLine();
+                System.out.print("Insira o ano de nascimento: ");
+                String anoNasc = scanner.nextLine();
+
+                System.out.print("Insira o CPF (opcional, pressione ENTER para pular): ");
+                String numCPF = scanner.nextLine();
+
+                if (!numCPF.isEmpty()) {
+                    parameters = new String[9];
+                    System.out.print("Insira o peso: ");
+                    String peso = scanner.nextLine();
+                    System.out.print("Insira a altura: ");
+                    String altura = scanner.nextLine();
+
+                    parameters[0] = genero;
+                    parameters[1] = nome;
+                    parameters[2] = sobreNome;
+                    parameters[3] = diaNasc;
+                    parameters[4] = mesNasc;
+                    parameters[5] = anoNasc;
+                    parameters[6] = numCPF;
+                    parameters[7] = peso;
+                    parameters[8] = altura;
+                } else {
+                    parameters = new String[6];
+                    parameters[0] = genero;
+                    parameters[1] = nome;
+                    parameters[2] = sobreNome;
+                    parameters[3] = diaNasc;
+                    parameters[4] = mesNasc;
+                    parameters[5] = anoNasc;
+                }
+
+                pessoaCriada = trataExcecaoLoop(parameters);
+                
+                if (pessoaCriada == null) {
+                    System.out.println("Por favor, insira os dados novamente.");
+                    continue;
+                }
+                
+                System.out.println("\n" + pessoaCriada.getNome() + " cadastrado(a) com sucesso!");
+                pessoas[i] = pessoaCriada;
+                break;
+            }
+        }
+
+        int numPessoasCriadas = Pessoa.getNumPessoas();
+
+        for (int i = 0; i < numPessoasCriadas - 1; i++)
+            System.out.println(pessoas[i] + "\n");
+
+        scanner.close();
+    }
+
+    private static Pessoa trataExcecaoCLI(String[] parameters) {
+        Pessoa pessoaCriada = null;
+
+        try {
+            pessoaCriada = createPessoa(parameters);
+        } catch (InvalidNameException | InvalidSurnameException e1) {
+            System.out.println("Erro de validacao: Nome ou Sobrenome invalido.");
+            System.out.println("Detalhe: " + e1.getMessage());
+        } catch (InvalidDataException e2) {
+            System.out.println("Erro de validacao: Data de Nascimento invalida.");
+            System.out.println("Detalhe: " + e2.getMessage());
+        } catch (InvalidCpfException e3) {
+            System.out.println("Erro de validacao: CPF invalido.");
+            System.out.println("Detalhe: " + e3.getMessage());
+        } catch (InvalidWeightException e4) {
+            System.out.println("Erro de validacao: Peso invalido.");
+            System.out.println("Detalhe: " + e4.getMessage());
+        } catch (InvalidHeightException e5) {
+            System.out.println("Erro de validacao: Altura invalida.");
+            System.out.println("Detalhe: " + e5.getMessage());
+        } catch (NumberFormatException e) {
+            System.out.println("Erro de formato: Peso ou Altura nao sao numeros validos.");
+            System.out.println("Detalhe: \"" + e.getMessage() + "\" nao pode ser convertido.");
+        } catch (IllegalArgumentException e6) {
+            System.out.println("Erro de validacao: Genero invalido.");
+            displayHelpGender(parameters[0]);
+        } catch (Exception e) {
+            System.out.println("Ocorreu um erro inesperado:");
+            e.printStackTrace();
+            displayHelp();
+        }
+
+        return pessoaCriada;
+    }
+
+    private static Pessoa trataExcecaoLoop(String[] parameters) {
+        Pessoa pessoaCriada = null;
+
+        try {
+            pessoaCriada = createPessoa(parameters);
+        } catch (InvalidNameException | InvalidSurnameException e1) {
+            System.out.println("\nErro de validacao: Nome ou Sobrenome invalido.");
+            System.out.println("Detalhe: " + e1.getMessage());
+        } catch (InvalidDataException e2) {
+            System.out.println("\nErro de validacao: Data de Nascimento invalida.");
+            System.out.println("Detalhe: " + e2.getMessage());
+        } catch (InvalidCpfException e3) {
+            System.out.println("\nErro de validacao: CPF invalido.");
+            System.out.println("Detalhe: " + e3.getMessage());
+        } catch (InvalidWeightException e4) {
+            System.out.println("\nErro de validacao: Peso invalido.");
+            System.out.println("Detalhe: " + e4.getMessage());
+        } catch (InvalidHeightException e5) {
+            System.out.println("\nErro de validacao: Altura invalida.");
+            System.out.println("Detalhe: " + e5.getMessage());
+        } catch (NumberFormatException e) {
+            System.out.println("\nErro de formato: Peso ou Altura nao sao numeros validos.");
+            System.out.println("Detalhe: \"" + e.getMessage() + "\" nao pode ser convertido.");
+        } catch (IllegalArgumentException e6) {
+            System.out.println("\nErro de validacao: Genero invalido.");
+            displayHelpGender(parameters[0]);
+        } catch (Exception e) {
+            System.out.println("\nOcorreu um erro inesperado:");
+            e.printStackTrace();
+            displayHelp();
+        }
+
+        return pessoaCriada;
     }
 
     private static Pessoa createPessoa(String[] parameters) {
@@ -85,7 +222,6 @@ public class P1nX {
 
     private static void displayHelp() {
         System.out.println(
-            "Quantidade de argumentos invalida. Veja como iniciar o programa corretamente:\n" +
             "\njava P1nX <genero> <nome> <sobrenome> <dia> <mes> <ano> <CPF> <peso> <altura>\n" +
             "\nVeja os exemplos abaixo:\n" +
             "\nExemplo 1:\njava P1nX Masculino Richard Albino 4 1 2005\n" +

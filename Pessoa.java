@@ -22,7 +22,7 @@ public class Pessoa {
      * Regex para validar nome e sobrenome.
      * Atributo privado, estatico e constante, nao podendo ser alterado e nem acessado de fora da classe.
      */
-    private static final Pattern NOME_VALIDO = Pattern.compile("^[\\p{L}\s]+$");
+    private static final Pattern NOME_VALIDO = Pattern.compile("^[\\p{L}\\s]+$");
     private static int numPessoas = 0;
     private String nome;
     private String sobreNome;
@@ -46,10 +46,10 @@ public class Pessoa {
      * @param anoNasc ({@code int}): Ano de nascimento da {@code Pessoa}.
      */
     public Pessoa(String nome, String sobreNome, int diaNasc, int mesNasc, int anoNasc) {
-        numPessoas++;
         setNome(nome);
         setSobreNome(sobreNome);
         setDataNasc(diaNasc, mesNasc, anoNasc);
+        numPessoas++;
     }
 
     /**
@@ -63,10 +63,10 @@ public class Pessoa {
      * @param anoNasc ({@code String}): Ano de nascimento da {@code Pessoa}.
      */
     public Pessoa(String nome, String sobreNome, String diaNasc, String mesNasc, String anoNasc) {
-        numPessoas++;
         setNome(nome);
         setSobreNome(sobreNome);
         setDataNasc(diaNasc, mesNasc, anoNasc);
+        numPessoas++;
     }
 
     /**
