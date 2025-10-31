@@ -77,7 +77,7 @@ public class P1nX {
         int homensCriados = 0;
         int mulheresCriadas = 0;
         // Itera sobre o array, exibindo as informacoes de todos.
-        for (int i = 0; i < numPessoasCriadas; i++) {
+        for (int i = 0; i < numPessoasCriadas - 1; i++) {
             // Exibe informacoes
             System.out.println("\n" + pessoas[i]);
             // Verifica se o objeto eh uma instancia de Homem ou Mulher
