@@ -39,10 +39,12 @@ public class P1nX {
         if (quantidade == 0)
             System.out.println("Nenhuma pessoa mais sera criada.");
 
-        Pessoa[] pessoas = new Pessoa[quantidade];
+        Pessoa[] pessoas = new Pessoa[quantidade + 1];
+
+        pessoas[0] = pessoaCriada;
 
         mainLoop:
-        for (int i = 0; i < quantidade; i++) {
+        for (int i = 1; i < quantidade; i++) {
             System.out.println("\nCadastrando pessoa " + (i + 1) + " de " + quantidade + ".");
             System.out.println("(Deixe o 'genero' em branco e pressione ENTER para parar)");
 
@@ -112,12 +114,21 @@ public class P1nX {
 
         int numPessoasCriadas = Pessoa.getNumPessoas();
 
-        for (int i = 0; i < numPessoasCriadas - 1; i++)
-            System.out.println(pessoas[i] + "\n");
+        for (int i = 0; i < numPessoasCriadas; i++)
+            System.out.println("\n" + pessoas[i]);
 
         scanner.close();
     }
 
+    /**
+     * Metodo que retorna uma pessoa criada ou trata as excecoes. Seas excecoes forem disparadas,
+     * todas serao tratadas, porem a pessoa nao sera criada, entao sera retornado null.
+     * Este metodo sera usado na criacao de uma pessoa com passagem de parametros no CLI.
+     * 
+     * @param parameters ({@code String[]}): Array de String contendo todos os parametros de criacao de {@code Pessoa}.
+     * 
+     * @return {@code Pessoa}: Retorna objeto da classe {@code Pessoa} instanciado.
+     */
     private static Pessoa trataExcecaoCLI(String[] parameters) {
         Pessoa pessoaCriada = null;
 
@@ -153,6 +164,15 @@ public class P1nX {
         return pessoaCriada;
     }
 
+    /**
+     * Metodo que retorna uma pessoa criada ou trata as excecoes. Seas excecoes forem disparadas,
+     * todas serao tratadas, porem a pessoa nao sera criada, entao sera retornado null.
+     * Este metodo sera usado no loop onde mais pessoas serao criadas.
+     * 
+     * @param parameters ({@code String[]}): Array de String contendo todos os parametros de criacao de {@code Pessoa}.
+     * 
+     * @return {@code Pessoa}: Retorna objeto da classe {@code Pessoa} instanciado.
+     */
     private static Pessoa trataExcecaoLoop(String[] parameters) {
         Pessoa pessoaCriada = null;
 
@@ -188,7 +208,27 @@ public class P1nX {
         return pessoaCriada;
     }
 
-    private static Pessoa createPessoa(String[] parameters) {
+    /**
+     * Metodo que cria uma pessoa baseado no sexo inserido.
+     * 
+     * @param parameters ({@code String[]}): Array de String com argumentos para criar {@code Pessoa}.
+     * 
+     * @return {@code Pessoa}: Retorna objeto instanciado da classe {@code Pessoa}.
+     * 
+     * @throws InvalidNameException Lanca excecao se o nome possuir caracteres invalidos ou estiver vazio.
+     * @throws InvalidSurnameException Lanca excecao se o sobrenome possuir caracteres invalidos ou estiver vazio.
+     * @throws InvalidDataException Lanca excecao se a data for invalida, como um dia negativo, um mes que nao existe
+     * ou um ano que nao esta no intervalo determinado (120 anos).
+     * @throws InvalidCpfException Lanca excecao se o CPF for invalido, podendo ser o formato ou os digitos verificadores.
+     * @throws InvalidWeightException Lanca excecao se o peso for negativo.
+     * @throws InvalidHeightException Lanca excecao se a altura for menor que 0.40m.
+     * @throws NumberFormatException Lanca excecao se o peso ou a altura nao for um float.
+     * @throws IllegalArgumentException Lanca excecao se o genero for invalido (help sera exibido para ajudar).
+     */
+    private static Pessoa createPessoa(String[] parameters)
+        throws InvalidNameException, InvalidSurnameException, InvalidDataException, 
+               InvalidCpfException, InvalidWeightException, InvalidHeightException,
+               NumberFormatException, IllegalArgumentException {
         String genero = parameters[0].toLowerCase();
         String nome = parameters[1];
         String sobreNome = parameters[2];
@@ -220,6 +260,9 @@ public class P1nX {
         }
     }
 
+    /**
+     * Metodo que exibe mensagem de ajuda apos iniciar com argumentos incorretos.
+     */
     private static void displayHelp() {
         System.out.println(
             "\njava P1nX <genero> <nome> <sobrenome> <dia> <mes> <ano> <CPF> <peso> <altura>\n" +
@@ -236,6 +279,11 @@ public class P1nX {
         );
     }
 
+    /**
+     * Metodo estatico que exibe mensagem de ajuda para preencher genero.
+     * 
+     * @param genero ({@code String}): Genero da pessoa criada.
+     */
     private static void displayHelpGender(String genero) {
         System.out.println(
             "O genero " + genero + " esta incorreto.\n" +

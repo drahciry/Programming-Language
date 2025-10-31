@@ -82,10 +82,13 @@ public class Pessoa {
      * @param altura ({@code float}): Altura da {@code Pessoa}.
      */
     public Pessoa(String nome, String sobreNome, int diaNasc, int mesNasc, int anoNasc, String numCPF, float peso, float altura) {
-        this(nome, sobreNome, diaNasc, mesNasc, anoNasc);
+        setNome(nome);
+        setSobreNome(sobreNome);
+        setDataNasc(diaNasc, mesNasc, anoNasc);
         setNumCPF(numCPF);
         setPeso(peso);
         setAltura(altura);
+        numPessoas++;
     }
 
     /**
@@ -101,10 +104,13 @@ public class Pessoa {
      * @param altura ({@code float}): Altura da {@code Pessoa}.
      */
     public Pessoa(String nome, String sobreNome, String diaNasc, String mesNasc, String anoNasc, String numCPF, float peso, float altura) {
-        this(nome, sobreNome, diaNasc, mesNasc, anoNasc);
+        setNome(nome);
+        setSobreNome(sobreNome);
+        setDataNasc(diaNasc, mesNasc, anoNasc);
         setNumCPF(numCPF);
         setPeso(peso);
         setAltura(altura);
+        numPessoas++;
     }
 
     /*************************************************************
