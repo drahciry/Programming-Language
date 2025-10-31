@@ -77,11 +77,11 @@ public class Pessoa {
      * @param diaNasc ({@code int}): Dia de nascimento da {@code Pessoa}.
      * @param mesNasc ({@code int}): Mes de nascimento da {@code Pessoa}.
      * @param anoNasc ({@code int}): Ano de nascimento da {@code Pessoa}.
-     * @param numCPF ({@code long}): Numero de CPF da {@code Pessoa}.
+     * @param numCPF ({@code String}): Numero de CPF da {@code Pessoa}.
      * @param peso ({@code float}): Peso da {@code Pessoa}.
      * @param altura ({@code float}): Altura da {@code Pessoa}.
      */
-    public Pessoa(String nome, String sobreNome, int diaNasc, int mesNasc, int anoNasc, long numCPF, float peso, float altura) {
+    public Pessoa(String nome, String sobreNome, int diaNasc, int mesNasc, int anoNasc, String numCPF, float peso, float altura) {
         this(nome, sobreNome, diaNasc, mesNasc, anoNasc);
         setNumCPF(numCPF);
         setPeso(peso);
@@ -100,7 +100,7 @@ public class Pessoa {
      * @param peso ({@code float}): Peso da {@code Pessoa}.
      * @param altura ({@code float}): Altura da {@code Pessoa}.
      */
-    public Pessoa(String nome, String sobreNome, String diaNasc, String mesNasc, String anoNasc, long numCPF, float peso, float altura) {
+    public Pessoa(String nome, String sobreNome, String diaNasc, String mesNasc, String anoNasc, String numCPF, float peso, float altura) {
         this(nome, sobreNome, diaNasc, mesNasc, anoNasc);
         setNumCPF(numCPF);
         setPeso(peso);
@@ -249,14 +249,13 @@ public class Pessoa {
      * @exception InvalidCpfException Caso o CPF nao seja valido,
      * lanca uma Runtime Exception.
      */
-    public void setNumCPF(long numCPF) {
+    public void setNumCPF(String numCPF) {
         // Valida o CPF informado com metodo estatico da classe ValidaCPF.
-        // Utiliza o metodo estatico format() da classe String para que o CPF tenha sempre 11 digitos.
-        if (!ValidaCPF.isCPF(String.format("%011d", numCPF)))
+        if (!ValidaCPF.isCPF(numCPF))
             // Lanca excecao de CPF invalido.
             throw new InvalidCpfException(numCPF + " nao eh um CPF valido.");
         // Atribui valor ao atributo, caso nao tenha lancado erro.
-        this.numCPF = numCPF;
+        this.numCPF = ValidaCPF.toLong(numCPF);
     }
 
     /**

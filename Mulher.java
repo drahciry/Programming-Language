@@ -60,11 +60,11 @@ public class Mulher extends Pessoa {
      * @param diaNasc ({@code int}): Dia de nascimento da {@code Mulher}.
      * @param mesNasc ({@code int}): Mes de nascimento da {@code Mulher}.
      * @param anoNasc ({@code int}): Ano de nascimento da {@code Mulher}.
-     * @param numCPF ({@code long}): Numero de CPF da {@code Mulher}.
+     * @param numCPF ({@code String}): Numero de CPF da {@code Mulher}.
      * @param peso ({@code float}): Peso da {@code Mulher}.
      * @param altura ({@code float}): Altura da {@code Mulher}.
      */
-    public Mulher(String nome, String sobreNome, int diaNasc, int mesNasc, int anoNasc, long numCPF, float peso, float altura) {
+    public Mulher(String nome, String sobreNome, int diaNasc, int mesNasc, int anoNasc, String numCPF, float peso, float altura) {
         super(nome, sobreNome, diaNasc, mesNasc, anoNasc, numCPF, peso, altura);
     }
 
@@ -76,11 +76,11 @@ public class Mulher extends Pessoa {
      * @param diaNasc ({@code String}): Dia de nascimento da {@code Mulher}.
      * @param mesNasc ({@code String}): Mes de nascimento da {@code Mulher}.
      * @param anoNasc ({@code String}): Ano de nascimento da {@code Mulher}.
-     * @param numCPF ({@code long}): Numero de CPF da {@code Mulher}.
+     * @param numCPF ({@code String}): Numero de CPF da {@code Mulher}.
      * @param peso ({@code float}): Peso da {@code Mulher}.
      * @param altura ({@code float}): Altura da {@code Mulher}.
      */
-    public Mulher(String nome, String sobreNome, String diaNasc, String mesNasc, String anoNasc, long numCPF, float peso, float altura) {
+    public Mulher(String nome, String sobreNome, String diaNasc, String mesNasc, String anoNasc, String numCPF, float peso, float altura) {
         super(nome, sobreNome, diaNasc, mesNasc, anoNasc, numCPF, peso, altura);
     }
 

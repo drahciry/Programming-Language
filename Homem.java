@@ -23,21 +23,7 @@ public class Homem extends Pessoa {
     /*************************************************************
      *                        CONSTRUTOR                         *
     *************************************************************/
-
-    /**
-     * Construtor básico.
-     * Composto de Nome, Sobrenome e Data de Nascimento.
-     * 
-     * @param nome ({@code String}): Nome do {@code Homem}.
-     * @param sobreNome ({@code String}): Sobrenome do {@code Homem}.
-     * @param diaNasc ({@code String}): Dia de nascimento do {@code Homem}.
-     * @param mesNasc ({@code String}): Mes de nascimento do {@code Homem}.
-     * @param anoNasc ({@code String}): Ano de nascimento do {@code Homem}.
-     */
-    public Homem(String nome, String sobreNome, int diaNasc, int mesNasc, int anoNasc) {
-        super(nome, sobreNome, diaNasc, mesNasc, anoNasc);
-    }
-
+    
     /**
      * Construtor básico.
      * Composto de Nome, Sobrenome e Data de Nascimento.
@@ -47,6 +33,20 @@ public class Homem extends Pessoa {
      * @param diaNasc ({@code int}): Dia de nascimento do {@code Homem}.
      * @param mesNasc ({@code int}): Mes de nascimento do {@code Homem}.
      * @param anoNasc ({@code int}): Ano de nascimento do {@code Homem}.
+     */
+    public Homem(String nome, String sobreNome, int diaNasc, int mesNasc, int anoNasc) {
+        super(nome, sobreNome, diaNasc, mesNasc, anoNasc);
+    }
+    
+    /**
+     * Construtor básico.
+     * Composto de Nome, Sobrenome e Data de Nascimento.
+     * 
+     * @param nome ({@code String}): Nome do {@code Homem}.
+     * @param sobreNome ({@code String}): Sobrenome do {@code Homem}.
+     * @param diaNasc ({@code String}): Dia de nascimento do {@code Homem}.
+     * @param mesNasc ({@code String}): Mes de nascimento do {@code Homem}.
+     * @param anoNasc ({@code String}): Ano de nascimento do {@code Homem}.
      */
     public Homem(String nome, String sobreNome, String diaNasc, String mesNasc, String anoNasc) {
         super(nome, sobreNome, diaNasc, mesNasc, anoNasc);
@@ -60,11 +60,11 @@ public class Homem extends Pessoa {
      * @param diaNasc ({@code int}): Dia de nascimento do {@code Homem}.
      * @param mesNasc ({@code int}): Mes de nascimento do {@code Homem}.
      * @param anoNasc ({@code int}): Ano de nascimento do {@code Homem}.
-     * @param numCPF ({@code long}): Numero de CPF do {@code Homem}.
+     * @param numCPF ({@code String}): Numero de CPF do {@code Homem}.
      * @param peso ({@code float}): Peso do {@code Homem}.
      * @param altura ({@code float}): Altura do {@code Homem}.
      */
-    public Homem(String nome, String sobreNome, int diaNasc, int mesNasc, int anoNasc, long numCPF, float peso, float altura) {
+    public Homem(String nome, String sobreNome, int diaNasc, int mesNasc, int anoNasc, String numCPF, float peso, float altura) {
         super(nome, sobreNome, diaNasc, mesNasc, anoNasc, numCPF, peso, altura);
     }
 
@@ -80,7 +80,7 @@ public class Homem extends Pessoa {
      * @param peso ({@code float}): Peso do {@code Homem}.
      * @param altura ({@code float}): Altura do {@code Homem}.
      */
-    public Homem(String nome, String sobreNome, String diaNasc, String mesNasc, String anoNasc, long numCPF, float peso, float altura) {
+    public Homem(String nome, String sobreNome, String diaNasc, String mesNasc, String anoNasc, String numCPF, float peso, float altura) {
         super(nome, sobreNome, diaNasc, mesNasc, anoNasc, numCPF, peso, altura);
     }
 
